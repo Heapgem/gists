@@ -407,6 +407,107 @@ curl --location 'https://duo-movel.com/api/v1/use_terms'
 
 ```
 
+## Endpoint notificações
+### 🟢 GET - { URL_BASE }/notifications
+
+| HEADER         | OBRIGATORIEDADE | TIPO   |
+|----------------|-----------------|--------|
+| Authorization  | Obrigatório     | TOKEN  |
+| Content-Type   | Obrigatório     | String |
+
+
+| PARAMETRO      | OBRIGATORIEDADE | TIPO   |
+|----------------|-----------------|--------|
+|  null  |   null   |  null |
+|  null  |   null   |  null |
+
+### Exemplo de chamada:
+
+```shell
+curl --location 'https://duo-movel.com/api/v1/notifications'
+```
+
+### Exemplo de resposta:
+>> types
+>> alert - avisos, alertas que tem ação do usuario.
+>> message - mensagens do sistema ou do suporte que não tem ação do usuario.
+>> info - informações que não tem ação do usuario.
+
+```json
+{ 
+  "notifications":
+    [
+      {
+        "title": "Consumo",
+        "subtitle":
+            "Você consumiu 80% do seu pacote, deseja adicionar mais internet?",
+        "icon": "Icons.warning",
+        "type": "alert",
+        "action": "change_package",
+        "date": "2024-07-13 22:00:39",
+        "read": false
+      },
+      {
+        "title": "Fatura vencida",
+        "subtitle": "Sua vatura venceu, pague agora e fique livre de juros",
+        "icon": "Icons.warning",
+        "type": "alert",
+        "action": "pay",
+        "date": "2024-07-12 13:21:39",
+        "read": true
+      },
+      {
+        "title": "Fatura em atraso",
+        "subtitle": "Sua fatura no valor de R$59,90 está em atraso.",
+        "icon": "Icons.warning",
+        "type": "alert",
+        "action": "pay",
+        "date": "2024-07-13 20:00:02",
+        "read": true
+      },
+      {
+        "title": "Fatura paga",
+        "subtitle":
+            "Identificamos o pagamento da sua fatura no valor de R$59,90.",
+        "icon": "Icons.warning",
+        "type": "message",
+        "action": "",
+        "date": "2024-07-09 09:00:32",
+        "read": false
+      },
+      {
+        "title": "Fatura disponivel",
+        "subtitle": "Sua nova fatura de R$59,90 já está disponivel.",
+        "icon": "Icons.warning",
+        "type": "alert",
+        "action": "pay",
+        "date": "2024-07-09 12:32:12",
+        "read": false
+      },
+      {
+        "title": "Mensagem",
+        "subtitle": "Você recebeu uma nova mensagem do suporte.",
+        "icon": "Icons.warning",
+        "type": "message",
+        "action": "",
+        "date": "2024-07-08 21:40:12",
+        "read": false
+      },
+      {
+        "title": "Bloqueio",
+        "subtitle":
+            "Seus serviço será bloqueado em 13/07/2024 devio ao atraso no pagamento.",
+        "icon": "Icons.warning",
+        "type": "alert",
+        "action": "pay",
+        "date": "2024-07-07 08:21:45",
+        "read": true
+      }
+    ]
+}
+
+```
+
 #### A documentação tem como propósito final auxiliar na construção da API. É importante que a equipe de desenvolvimento responsável pela API documente detalhadamente o desenvolvimento dos endpoints, incluindo os testes e a utilização da API construída. 
 
 ## Fluxo de construção App Duo - Version One
