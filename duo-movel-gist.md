@@ -52,7 +52,8 @@ pois o campo de senha é um dado sensivel.
     "email": "marcelo@mail.com",
     "document": "6789876976998",
     "avatar": "https://s3.aws/profile-photo.jpg",
-    "current_plan": "Duo Caju"
+    "current_plan": "Duo Caju",
+    "accept_terms": "true",
   },
   "error": false
 }
@@ -105,7 +106,8 @@ ou o token de acesso estiver expirado, nesse caso será enviado um novo token de
     "email": "marcelo@mail.com",
     "document": "6789876976998",
     "avatar": "https://s3.aws/profile-photo.jpg",
-    "current_plan": "Duo Caju"
+    "current_plan": "Duo Caju",
+    "accept_terms": "true",
   },
   "error": false
 }
