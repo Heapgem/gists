@@ -45,6 +45,7 @@ pois o campo de senha é um dado sensivel.
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZS‑I6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+  "session_active": "true",
   "user": {
     "name": "Marcelo Henrique",
     "phone_number": "(86) 99805-4678",
@@ -67,6 +68,80 @@ pois o campo de senha é um dado sensivel.
 "msg": "Unauthorized"
 }
 ```
+
+### Endpoint de logon
+### 🟢 GET - { URL_BASE }/logon
+
+| HEADER         | OBRIGATORIEDADE | TIPO   |
+|----------------|-----------------|--------|
+| Authorization  | Obrigatorio     | TOKEN  |
+| Content-Type   | Obrigatorio     | String |
+
+| PARÂMETRO    | OBRIGATORIEDADE | TIPO   |
+|--------------|-----------------|--------|
+|     null     |       null      |  null  |
+
+Usado para verificar se o usuario ainda está com a sessão ativa(logado) no sistema, mesmo depois de sair do aplicativo,
+ou o token de acesso estiver expirado, nesse caso será enviado um novo token de acesso e a sessão do usuario permanecerá ativa.
+
+### Exemplo de chamada:
+```shell
+
+  curl --location --request GET '{ URL_BASE }/logon
+
+
+```
+
+### Exemplo de resposta sucesso:
+
+### 🟢 STATUS: 200
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZS‑I6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+  "session_active": "true",
+  "user": {
+    "name": "Marcelo Henrique",
+    "phone_number": "(86) 99805-4678",
+    "email": "marcelo@mail.com",
+    "document": "6789876976998",
+    "avatar": "https://s3.aws/profile-photo.jpg",
+    "current_plan": "Duo Caju"
+  },
+  "error": false
+}
+````
+
+### Endpoint de logout
+### 🔶 POST - { URL_BASE }/logout
+
+| HEADER         | OBRIGATORIEDADE | TIPO   |
+|----------------|-----------------|--------|
+| Authorization  | Obrigatorio     | TOKEN  |
+| Content-Type   | Obrigatorio     | String |
+
+| PARÂMETRO    | OBRIGATORIEDADE | TIPO   |
+|--------------|-----------------|--------|
+|     null     |       null      |  null  |
+
+Usado para deslogar o usuario da conta, e setar o campo de sessão como false.
+
+### Exemplo de chamada:
+```shell
+
+  curl --location --request POST '{ URL_BASE }/logout
+
+
+```
+### Exemplo de resposta sucesso:
+
+### 🟢 STATUS: 200
+```json
+{
+  "session_active": "false",
+  "error": false
+}
+
+````
 
 ## Endpoint de cadastro
 ### 🔶 POST - { URL_BASE }/sign_in
