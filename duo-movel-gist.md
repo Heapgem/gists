@@ -204,8 +204,8 @@ HEADER da requisição, para fazer a autorização do recurso.
 
 | PARAMETRO      | OBRIGATORIEDADE | TIPO   |
 |----------------|-----------------|--------|
-|  null |   null   |  null |
-|  null  |    null  | null |
+|  null |   null  |  null |
+|  null |   null  | null  |
 
 
 ### Exemplo de chamada:
@@ -225,6 +225,10 @@ curl --location --request POST '{ URL_BASE }/data_usage' \
       "package_used": "5.6GB",
       "expire_date": "01/09/2077",
   },
+   "bonus": {
+      "bonus_size": "10GB",
+      "due_date": "2024-07-01",
+    },
     "extra_packages": {
       "package_size": "5GB",
       "package_used": "1GB",
@@ -256,23 +260,13 @@ curl --location '{ URL_BASE }/plan_bills?month=06&status=PG' \
 {
   "bills": [
     {
-        "month": "05",
-        "status": "PG",
-        "value": 59.90,
-        "due_date": "21/06/2077",
-        "payment_date": "21/06/2077",
-        "payment_method": "credit_card",
-        "payment_code": "xxxxxxx.xxxxxxxxxx.xxxxx.xxxxxxxxxxx"
-    },
-    {
-        "month": "05",
-        "status": "PE",
-        "value": 59.90,
-        "due_date": "21/06/2077",
-        "payment_date": "",
-        "payment_method": "",
-        "payment_code": "xxxxxxx.xxxxxxxxxx.xxxxx.xxxxxxxxxxx"
-    },
+        "month": 1,
+        "status": "payedBoleto",
+        "value": "R$ 30,00",
+        "due_date": "19/01/2024",
+        "payment_date": "23/01/2024",
+        "payment_code": "3290487235098435734085997304958"
+    }
   ]
 }
 ```
