@@ -11,7 +11,7 @@ para comunicação entre um app e a API, não pode ser usada de base para a vers
 pode ser alterada ao longo do desenvolvimento.
 
 ### Primeiros passos da API
-{ URL_BASE } - É a URL padrão da API, Ex: `https://duo-movel/api/v1/`
+{ URL_BASE } - É a URL padrão da API, Ex: `http://master.duotel.com.br:3000/api`
 
 Usaremos na legenda *{ URL_BASE }* para se referir ao link raiz da API nos próximos tópicos.
 
@@ -196,7 +196,7 @@ HEADER da requisição, para fazer a autorização do recurso.
 
 ### Exemplo de chamada com o token de acesso:
 
-### 🟢 GET - { URL_BASE }/data_usage
+### 🟢 GET - { URL_BASE }/duo/data_usage
 
 | HEADER         | OBRIGATORIEDADE | TIPO   |
 |----------------|-----------------|--------|
@@ -225,17 +225,8 @@ curl --location --request POST '{ URL_BASE }/data_usage' \
       "package_size": "10GB",
       "package_used": "5.6GB",
       "expire_date": "01/09/2077",
-    "benefits": {
-      "calls": "unlimited",
-      "whatsapp": true,
-      "waze": true
-},
   },
-    "bonus": {
-      "package_size": "3GB",
-      "package_used": "1GB",
-},
-    "extra": {
+    "extra_packages": {
       "package_size": "5GB",
       "package_used": "1GB",
     }
@@ -286,6 +277,81 @@ curl --location '{ URL_BASE }/plan_bills?month=06&status=PG' \
   ]
 }
 ```
+
+
+## Endpoint de boletos
+### 🟢 GET - { URL_BASE }/bills/billet
+| HEADER         | OBRIGATORIEDADE | TIPO   |
+|----------------|-----------------|--------|
+| Authorization  | Obrigatorio     | TOKEN  |
+| Content-Type   | Obrigatorio     | String |
+
+| PARAMETRO | OBRIGATORIEDADE | TIPO                              |
+|-----------|-----------------|-----------------------------------|
+| month     | OPCIONAL        | String                            |
+
+### Exemplo de chamada:
+```shell
+curl --location '{ URL_BASE }/plan_bills?month=06&status=PG' \
+--header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c' \
+--header 'Content-Type: application/json'
+```
+### Exemplo de resposta:
+
+```json
+{
+    "boletos": [
+        {
+            "pdf": "https://data.cel.cash/landingpage41599/boleto/34792834",
+            "bankLine": "3847293874234230",
+            "bankNumber": 6598096,
+            "barCode": "900905867590687565",
+            "bankEmissor": "itau",
+            "bankAgency": "0000",
+            "bankAccount": "000000",
+            "value": "R$ 30,00",
+            "due_date": "19/01/2024",
+            "status": "payedBoleto"
+        }
+  ]
+}
+```
+
+## Endpoint de pix
+### 🟢 GET - { URL_BASE }/bills/pix
+| HEADER         | OBRIGATORIEDADE | TIPO   |
+|----------------|-----------------|--------|
+| Authorization  | Obrigatorio     | TOKEN  |
+| Content-Type   | Obrigatorio     | String |
+
+| PARAMETRO | OBRIGATORIEDADE | TIPO                              |
+|-----------|-----------------|-----------------------------------|
+| month     | OPCIONAL        | String                            |
+
+### Exemplo de chamada:
+```shell
+curl --location '{ URL_BASE }/plan_bills?month=06&status=PG' \
+--header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c' \
+--header 'Content-Type: application/json'
+```
+### Exemplo de resposta:
+
+```json
+{
+    "pix": [
+        {
+            "reference": "987DFS80SDNFFGKJHKJHGKJH",
+            "qrCode": "09eddflsdkf nsdlfksjdçf",
+            "image": "https://data.cel.cash/landingpage41599/pix/vklxhjgcvkjxhcv",
+            "page": "https://cel.cash/q/38521/sdfsdf",
+            "value": "R$ 30,00",
+            "due_date": "19/01/2024",
+            "status": "payedBoleto"
+        }
+  ]
+}
+```
+
 ## Endpoint Pacotes adicionais
 ### 🟢 GET - { URL_BASE }/extra_packages
 | HEADER         | OBRIGATORIEDADE | TIPO   |
@@ -324,7 +390,7 @@ curl --location 'https://duo-movel.com/api/v1/extra_packages' \
 }
 ```
 
-## Endpoint de troca de plano
+## Endpoint de troca de plano (Não existe na V0)
 ### 🟢 GET - { URL_BASE }/available_plans
 
 | HEADER         | OBRIGATORIEDADE | TIPO   |
@@ -461,13 +527,43 @@ curl --location '{ URL_BASE }/user_profile' \
 }
 ```
 
+## Endpoint Editar avatar
+### 🔶 POST  - { URL_BASE }/user_profile/avatar
+
+| HEADER         | OBRIGATORIEDADE | TIPO   |
+|----------------|-----------------|--------|
+| Authorization  | Obrigatório     | TOKEN  |
+| Content-Type   | Obrigatório     | String |
+
+| PARAMETRO                    | OBRIGATORIEDADE | TIPO   |
+|------------------------------|-----------------|--------|
+| avatar                       | Required        | File   |
+
+
+### Exemplo de chamada:
+```shell
+curl --location '{ URL_BASE }/user_profile/avatar' \
+--header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c' \
+--header 'Content-Type: application/json' \
+--form 'avatar=@"/C:/tests/app/maroto/michael-dam-mEZ3PoFGs_k-unsplash.jpg"'
+```
+
+### Exemplo de resposta:
+
+```json
+{
+"error": false,
+"msg": "Atualizado com sucesso"
+}
+```
+
 ## Endpoint termos de uso
 ### 🟢 GET - { URL_BASE }/user_terms
 
 | PARAMETRO      | OBRIGATORIEDADE | TIPO   |
 |----------------|-----------------|--------|
 |  null |   null   |  null |
-|  null  |    null  | null |
+|  null |   null   |  null |
 
 ### Exemplo de chamada:
 
@@ -501,7 +597,7 @@ curl --location 'https://duo-movel.com/api/v1/use_terms'
 ### Exemplo de chamada:
 
 ```shell
-curl --location 'https://duo-movel.com/api/v1/notifications'
+curl --location 'https://duo-movel.com/api/notifications'
 ```
 
 ### Exemplo de resposta:
