@@ -155,9 +155,8 @@ Usado para deslogar o usuario da conta, e setar o campo de sessão como false.
 | email          | Obrigatorio     | String |
 | phone_number   | Obrigatorio     | String |
 
-Precisamos decidir qual vai ser o fluxo após o usuario enviar os dados para cadastro, vamos
-ficar aguardando algum retorno da API ou liberamos o usuario enquanto o processo está em
-analise.
+Precisamos validar os dados de cadastro de usuario principalmente o telefone
+vai retornar um codigo por sms ou email que vai ser inserido no app para a verificação.
 
 ### Exemplo de chamada:
 ```shell
