@@ -680,6 +680,50 @@ curl --location 'https://duo-movel.com/api/notifications'
 
 <img src="https://duotel.com.br/wp-content/uploads/2024/06/Fluxo-App-One.png"/>
 
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDUSX8uoRSEL-ok9Y_DNoQYQvQOtfSh2Uq5g&s" alt="Texto Alternativo" width="200"/>
+## Fluxo do envio de push notifications
 
+> É necessario ter as crecendicais de acesso do firebase admin para esse fluxo
+
+### Todo dispositivo tem um token do firebase unico, isso precisa ser salvo do lado do backend para enviar notificações para um dispositivo especifico.
+### Com esse token em mãos, segue um exemplo em `nodejs` de como enviar notificações push para os dispositivos.
+
+```
+var admin = require('firebase-admin');
+
+// Inicialize o Firebase Admin SDK com a chave da conta de serviço
+var serviceAccount = require('D:/projects/heapgem/documents/duo-movel-firebase-adminsdk.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+// Função para enviar uma notificação push
+function enviarPushNotification(tokenDispositivo, titulo, mensagem) {
+  const message = {
+    notification: {
+      title: titulo,
+      body: mensagem
+    },
+    token: tokenDispositivo
+  };
+
+  // Enviar a mensagem usando o Firebase Cloud Messaging
+  admin.messaging().send(message)
+    .then((response) => {
+      console.log('Notificação enviada com sucesso:', response);
+    })
+    .catch((error) => {
+      console.log('Erro ao enviar notificação:', error);
+    });
+}
+
+// Exemplo de uso
+var tokenDispositivo = "30rhjdfnlskjvbnxxcvlxnclvkjsaghdfjiksdgfkjasdhf";
+var titulo = "Nova Mensagem";
+var mensagem = "Você tem uma nova mensagem no aplicativo via NODE JS!";
+
+enviarPushNotification(tokenDispositivo, titulo, mensagem);
+```
+
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDUSX8uoRSEL-ok9Y_DNoQYQvQOtfSh2Uq5g&s" alt="Texto Alternativo" width="200"/>
 Desenvolvido pela Heapgem
